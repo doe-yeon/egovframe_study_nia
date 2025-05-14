@@ -5,34 +5,41 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.egovframe.rte.fdl.cmmn.EgovAbstractServiceImpl;
+import org.egovframe.rte.fdl.idgnr.EgovIdGnrService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import egovframework.lab.dataaccess.service.EmpService;
 import egovframework.lab.dataaccess.service.EmpVO;
-import org.egovframe.rte.fdl.cmmn.EgovAbstractServiceImpl;
-import org.egovframe.rte.fdl.idgnr.EgovIdGnrService;
 
 @Service("empService")
 public class EmpServiceImpl extends EgovAbstractServiceImpl implements EmpService {
 
 	// TODO [Step 2-1] EmpServiceImpl 추가 작성
-
-
+	@Resource(name = "empDAO")
+	private EmpDAO empDAO;
+	// TODO [Step 4-2] EmpServiceImpl의 주석 EmpMapper -> EmpDAO 변경 후 다시 테스트
+	// TODO [Step 3-1] EmpServiceImpl 변경
+	// EmpMapper를 사용하도록 주석 변경
+	// @Resource(name = "empMapper")
+	// EmpMapper empDAO;
 
 	// TODO [Step 4-2] EmpServiceImpl의 주석 EmpMapper -> EmpDAO로 변경 후 다시 테스트
 
 	// TODO [Step 3-1] EmpServiceImpl 추가 작성
-
-
-
+	// EmpMapper를 사용하도록 주석 변경
+	// @Resource(name = "empMapper")
+	// EmpMapper empDAO;
+	
 	@Resource(name = "primaryTypeSequenceIds")
-    EgovIdGnrService egovIdGnrService; // primaryTypeSequenceIds 는 Sequence 기반으로 key 생성
+	EgovIdGnrService egovIdGnrService; // primaryTypeSequenceIds 는 Sequence 기반으로 key 생성
 
 	// insert Emp
-    //@Transactional(value="txManager", propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
-    @Transactional(value="txManager", propagation=Propagation.REQUIRES_NEW, rollbackFor=Exception.class)
+	// @Transactional(value="txManager", propagation=Propagation.REQUIRED,
+	// rollbackFor=Exception.class)
+	@Transactional(value = "txManager", propagation = Propagation.REQUIRES_NEW, rollbackFor = Exception.class)
 	public BigDecimal insertEmp(EmpVO empVO) throws Exception {
 
 		// IDGeneration Service 를 사용하여 key 생성
@@ -47,7 +54,7 @@ public class EmpServiceImpl extends EgovAbstractServiceImpl implements EmpServic
 	}
 
 	// update Emp
-    @Transactional(value="txManager", propagation=Propagation.REQUIRED, rollbackFor=Exception.class)
+	@Transactional(value = "txManager", propagation = Propagation.REQUIRED, rollbackFor = Exception.class)
 	public void updateEmp(EmpVO empVO) throws Exception {
 		empDAO.updateEmp(empVO);
 	}
