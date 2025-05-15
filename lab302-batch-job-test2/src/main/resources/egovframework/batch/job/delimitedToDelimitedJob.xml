@@ -1,46 +1,80 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 		http://www.springframework.org/schema/batch http://www.springframework.org/schema/batch/spring-batch-3.0.xsd">
-    <import resource="abstract/eGovBase.xml" />
-    <job id="delimitedToDelimitedJob" parent="eGovBaseJob" xmlns="http://www.springframework.org/schema/batch">
-        <step id="delimitedToDelimitedStep" parent="eGovBaseStep">
-            <tasklet>
-                <chunk reader="delimitedToDelimitedJob.delimitedToDelimitedStep.delimitedItemReader" processor="delimitedToDelimitedJob.delimitedToDelimitedStep.itemProcessor"
-                    writer="delimitedToDelimitedJob.delimitedToDelimitedStep.delimitedItemWriter" commit-interval="2" />
-            </tasklet>
-        </step>
-    </job>
-    <bean id="delimitedToDelimitedJob.delimitedToDelimitedStep.delimitedItemReader" class="org.springframework.batch.item.file.FlatFileItemReader" scope="step">
-        <property name="resource" value="file:./src/main/resources/egovframework/batch/data/inputs/csvData.csv" />
-        <property name="lineMapper">
-            <bean class="org.egovframe.rte.bat.core.item.file.mapping.EgovDefaultLineMapper">
-                <property name="lineTokenizer">
-                    <bean class="org.egovframe.rte.bat.core.item.file.transform.EgovDelimitedLineTokenizer">
-                        <property name="delimiter" value="," />
-                    </bean>
-                </property>
-                <property name="objectMapper">
-                    <bean class="org.egovframe.rte.bat.core.item.file.mapping.EgovObjectMapper">
-                        <property name="type" value="egovframework.example.bat.domain.trade.CustomerCredit" />
-                        <property name="names" value="name,credit" />
-                    </bean>
-                </property>
-            </bean>
-        </property>
-    </bean>
-    <bean id="delimitedToDelimitedJob.delimitedToDelimitedStep.delimitedItemWriter" class="org.springframework.batch.item.file.FlatFileItemWriter" scope="step">
-        <property name="resource" value="file:./target/test-outputs/csvOutput.csv" />
-        <property name="lineAggregator">
-            <bean class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
-                <property name="delimiter" value="," />
-                <property name="fieldExtractor">
-                    <bean class="org.egovframe.rte.bat.core.item.file.transform.EgovFieldExtractor">
-                        <property name="names" value="name,credit" />
-                    </bean>
-                </property>
-            </bean>
-        </property>
-    </bean>
-    <bean id="delimitedToDelimitedJob.delimitedToDelimitedStep.itemProcessor" class="egovframework.example.bat.domain.trade.CustomerCreditIncreaseProcessor" />
+		
+	<import resource="abstract/eGovBase.xml" />
+	
+	<job id="delimitedToDelimitedJob" parent="eGovBaseJob"
+		xmlns="http://www.springframework.org/schema/batch">
+		<step id="delimitedToDelimitedStep" parent="eGovBaseStep">
+			<tasklet>
+				<chunk
+					<!-- 데이터 처리 단위 설정 -->
+					reader="delimitedToDelimitedJob.delimitedToDelimitedStep.delimitedItemReader"
+					processor="delimitedToDelimitedJob.delimitedToDelimitedStep.itemProcessor"
+					writer="delimitedToDelimitedJob.delimitedToDelimitedStep.delimitedItemWriter"
+					<!-- commit-interval="2" : 두건 단위로 처리한다 -->
+					commit-interval="2" />
+			</tasklet>
+		</step>
+	</job>
+	
+	<!-- delimitedItemReader : 데이터를 ',' delimiter(구분자)로 잘라서 읽고, 데이터를 EgovObjectMapper라는 클래스를 이용하여 객체로 변환한다 -->
+	<bean
+		id="delimitedToDelimitedJob.delimitedToDelimitedStep.delimitedItemReader"
+		class="org.springframework.batch.item.file.FlatFileItemReader"
+		scope="step">
+		<property name="resource"
+			value="file:./src/main/resources/egovframework/batch/data/inputs/csvData.csv" />
+			<!-- /csvData.csv내용
+					customer1,10
+					customer2,20
+					customer3,30
+					customer4,40
+			 -->
+		<property name="lineMapper">
+			<bean
+				class="org.egovframe.rte.bat.core.item.file.mapping.EgovDefaultLineMapper">
+				<property name="lineTokenizer">
+					<bean
+						class="org.egovframe.rte.bat.core.item.file.transform.EgovDelimitedLineTokenizer">
+						<property name="delimiter" value="," />
+					</bean>
+				</property>
+				<property name="objectMapper">
+					<bean
+						<!-- EgovObjectMapper를 이용하여 객체로 변환 -->
+						class="org.egovframe.rte.bat.core.item.file.mapping.EgovObjectMapper">
+						<property name="type"
+							value="egovframework.example.bat.domain.trade.CustomerCredit" />
+						<property name="names" value="name,credit" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean
+		id="delimitedToDelimitedJob.delimitedToDelimitedStep.delimitedItemWriter"
+		class="org.springframework.batch.item.file.FlatFileItemWriter"
+		scope="step">
+		<property name="resource"
+			value="file:./target/test-outputs/csvOutput.csv" />
+		<property name="lineAggregator">
+			<bean
+				class="org.springframework.batch.item.file.transform.DelimitedLineAggregator">
+				<property name="delimiter" value="," />
+				<property name="fieldExtractor">
+					<bean
+						class="org.egovframe.rte.bat.core.item.file.transform.EgovFieldExtractor">
+						<property name="names" value="name,credit" />
+					</bean>
+				</property>
+			</bean>
+		</property>
+	</bean>
+	<bean
+		id="delimitedToDelimitedJob.delimitedToDelimitedStep.itemProcessor"
+		class="egovframework.example.bat.domain.trade.CustomerCreditIncreaseProcessor" />
 </beans>

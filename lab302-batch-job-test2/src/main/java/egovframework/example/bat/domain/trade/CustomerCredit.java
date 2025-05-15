@@ -27,13 +27,14 @@ import javax.persistence.Table;
  * @since 2012. 07.25
  * @version 1.0
  * @see
- *  <pre>
+ * 
+ *      <pre>
  *      개정이력(Modification Information)
  *
  *   수정일      수정자           수정내용
  *  ------- -------- ---------------------------
  *  2012. 07.25  배치실행개발팀     최초 생성
- *  </pre>
+ *      </pre>
  */
 
 @Entity
@@ -58,6 +59,7 @@ public class CustomerCredit {
 
 	/**
 	 * 생성자
+	 * 
 	 * @param id
 	 * @param name
 	 * @param credit
@@ -79,6 +81,7 @@ public class CustomerCredit {
 
 	/**
 	 * credit getter
+	 * 
 	 * @return
 	 */
 	public BigDecimal getCredit() {
@@ -87,6 +90,7 @@ public class CustomerCredit {
 
 	/**
 	 * id getter
+	 * 
 	 * @return
 	 */
 	public int getId() {
@@ -95,6 +99,7 @@ public class CustomerCredit {
 
 	/**
 	 * id setter
+	 * 
 	 * @param id
 	 */
 	public void setId(int id) {
@@ -103,6 +108,7 @@ public class CustomerCredit {
 
 	/**
 	 * credit setter
+	 * 
 	 * @param credit
 	 */
 	public void setCredit(BigDecimal credit) {
@@ -111,6 +117,7 @@ public class CustomerCredit {
 
 	/**
 	 * name getter
+	 * 
 	 * @return
 	 */
 	public String getName() {
@@ -119,6 +126,7 @@ public class CustomerCredit {
 
 	/**
 	 * name setter
+	 * 
 	 * @param name
 	 */
 	public void setName(String name) {
@@ -127,6 +135,7 @@ public class CustomerCredit {
 
 	/**
 	 * credit field를 증가
+	 * 
 	 * @param sum credit에 더하는 수
 	 * @return credit이 증가된 새로운 객체
 	 */
