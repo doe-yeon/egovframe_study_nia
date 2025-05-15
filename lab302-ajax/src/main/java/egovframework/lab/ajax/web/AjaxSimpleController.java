@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class AjaxSimpleController {
-	
+
 	private static final Logger LOGGER = LoggerFactory.getLogger(AjaxSimpleController.class);
 
 	private String[] keywords = { "Kim GilDong", "Kim NaRi", "Kim GilSu", "Kim Angel" };
@@ -38,6 +38,20 @@ public class AjaxSimpleController {
 		return result;
 	}
 
-	//TODO [Step 2-1-1] simpleAjax 메소드 완성하기 
+	// TODO [Step 2-1-1] simpleAjax 메소드 완성하기
+	@RequestMapping(value = "/autoCompleteSimple.do")
+	public ModelAndView simpleAjax(@RequestParam("keyword") String keyword) throws Exception {
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("jsonView");
+
+		String decode_keyword = URLDecoder.decode(keyword, "utf-8");
+		List<?> keywordList = search(decode_keyword);
+		LOGGER.debug("result >" + keywordList.toString());
+
+		modelAndView.addObject("resultList", keywordList);
+
+		return modelAndView;
+	}
 
 }
