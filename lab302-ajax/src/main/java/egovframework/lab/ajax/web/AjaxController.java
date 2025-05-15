@@ -21,12 +21,12 @@ import egovframework.lab.com.vo.Department;
 
 @Controller
 public class AjaxController {
-	
+
 	@Autowired
 	@Qualifier("employeeService")
 	private EmployeeService employeeService;
 
-	@Resource(name="departmentService")
+	@Resource(name = "departmentService")
 	private DepartmentService departmentService;
 
 	@RequestMapping(value = "/autoComplete.do")
@@ -37,26 +37,28 @@ public class AjaxController {
     	String searchName = URLDecoder.decode(keyword,"utf-8");
     	
     	// TODO [Step 2-2-2] autoComplete의 리스트를 DB를 통하여 가져온다.
+    	List<String> nameList = employeeService.getNameListForSuggest(searchName);
+    	modelAndView.addObject("resultList", nameList);
 
 		return modelAndView;
 	}
 
-	//linked selectbox 처리 기능
+	// linked selectbox 처리 기능
 	@RequestMapping("/autoSelectDept.do")
-	protected ModelAndView getDeptInfoforSelectTag(HttpServletRequest request) throws Exception{
-    	ModelAndView modelAndView = new ModelAndView();
-    	modelAndView.setViewName("jsonView");
-		
-    	String superdeptid = URLDecoder.decode(request.getParameter("superdeptid"),"utf-8");
-    	String depth = URLDecoder.decode(request.getParameter("depth"),"utf-8");
-    	
+	protected ModelAndView getDeptInfoforSelectTag(HttpServletRequest request) throws Exception {
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("jsonView");
+
+		String superdeptid = URLDecoder.decode(request.getParameter("superdeptid"), "utf-8");
+		String depth = URLDecoder.decode(request.getParameter("depth"), "utf-8");
+
 		Map<String, String> param = new HashMap<String, String>();
-		param.put("superdeptid",superdeptid);
-		param.put("depth",depth);
+		param.put("superdeptid", superdeptid);
+		param.put("depth", depth);
 		List<Department> deptList = departmentService.getDepartmentList(param);
-		
+
 		modelAndView.addObject("depthList", deptList);
-		
+
 		return modelAndView;
 	}
 }

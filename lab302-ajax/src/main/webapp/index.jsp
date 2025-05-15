@@ -24,7 +24,7 @@
 		<ul>
 			<li><a href="autocomplete.jsp">basic</a></li>      
 
-			<li><a href="login.do">AutoComplete , AutoSelected</a></li>
+			<li><a href="employeelist.do">AutoComplete , AutoSelected</a></li>
 
 			<!-- <li><a href="employeelist.do">Interceptor 보안적용 (로긴없이 /lab/employeelist.do 로 접근시) </a></li> -->
 		</ul>
