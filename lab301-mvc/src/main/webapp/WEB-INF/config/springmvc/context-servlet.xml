@@ -18,7 +18,7 @@
 	<!-- set message source -->
 	<!-- TODO [Step 1-2-1] SpringMessage - messageSource 활성화 설정 -->
 	<!-- messageSource 활성화하는 부분 -->
-	<!--
+	
 	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
 		<property name="basenames">
 			<list>
@@ -26,7 +26,7 @@
 			</list>
 		</property>
 	</bean>
-	-->
+	
 
 	<!-- setting Locale -->
 	<!-- setting Locale Locale Interceptor 설정하기  -->

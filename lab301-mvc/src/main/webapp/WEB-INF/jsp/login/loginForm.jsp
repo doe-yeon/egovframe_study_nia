@@ -16,7 +16,7 @@
 <table>
 	<tr>
 		<!-- TODO [Step 1-2-2] SpringMessage 사용 -->
-		<td><label for="id">아이디</label></td>
+		<td><label for="id"><spring:message code="login.form.id"/></label></td>
 		<td><form:input id="id" path="id" /></td>
 		<td><form:errors path="id" /></td>
 	</tr>

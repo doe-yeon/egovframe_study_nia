@@ -32,12 +32,12 @@ public class LoginController {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
 
-    @Autowired
-    @Qualifier("loginCommandValidator")
-    private Validator loginCommandValidator;
+	@Autowired
+	@Qualifier("loginCommandValidator")
+	private Validator loginCommandValidator;
 
-    @Resource(name = "LoginAuthenticator")
-    private Authenticator authenticator;
+	@Resource(name = "LoginAuthenticator")
+	private Authenticator authenticator;
 
 	private String formView = "login/loginForm";
 	private String successView = "login/loginSuccess";
@@ -59,31 +59,44 @@ public class LoginController {
 	}
 
 	/*
-	 * TODO [Step 1-2-4] @RequestMapping - method별 mapping 전략
-	 * 웹을 통해 들어오는 url 은 loginProcess1.do 이며 Get/Post 형식으로 넘어온다.
-	 * 두 가지를 다 받는 메소드를 만들어보자.
+	 * TODO [Step 1-2-4] @RequestMapping - method별 mapping 전략 웹을 통해 들어오는 url 은
+	 * loginProcess1.do 이며 Get/Post 형식으로 넘어온다. 두 가지를 다 받는 메소드를 만들어보자.
 	 */
+	@RequestMapping(value = "/loginProcess1.do", method = RequestMethod.GET)
+	public String showLoginForm() {
+		return getFormView();
+	}
 
-
+	@RequestMapping(value = "/loginProcess1.do", method = RequestMethod.POST)
+	public String processLogin(@ModelAttribute("login") LoginCommand loginCommand) {
+		return getSuccessView();
+	}
 
 	/*
-	 * TODO [Step 1-2-5] @ModelAttribute - 모델의 초기화
-	 * ModelAttribute를 이용하여 loginTypes와 login 객체를 초기화 해주는 메소드를 만든다.
+	 * TODO [Step 1-2-5] @ModelAttribute - 모델의 초기화 ModelAttribute를 이용하여 loginTypes와
+	 * login 객체를 초기화 해주는 메소드를 만든다.
 	 */
+	@ModelAttribute("loginTypes")
+	protected List<LoginType> referenceData() throws Exception {
+		List<LoginType> loginTypes = new ArrayList<LoginType>();
+		loginTypes.add(new LoginType("A", "개인회원"));
+		loginTypes.add(new LoginType("B", "기업회원"));
+		loginTypes.add(new LoginType("C", "관리자"));
+		return loginTypes;
+	}
 
+	@ModelAttribute("login")
+	protected Object referenceData4login() throws Exception {
+		return new LoginCommand();
+	}
 
-
-	/* 
+	/*
 	 * TODO [Step 1-3-3] @SessionAttributes - SessionStatus를 이용한 로그아웃
 	 */
 
-
-	
-
-	/* 
-	 * TODO [Step 1-4-1] LoginController.java 에서 loginProcess 메소드 수정하기. Validator 이용하여 값 검증하기
+	/*
+	 * TODO [Step 1-4-1] LoginController.java 에서 loginProcess 메소드 수정하기. Validator
+	 * 이용하여 값 검증하기
 	 */
-
-
 
 }
